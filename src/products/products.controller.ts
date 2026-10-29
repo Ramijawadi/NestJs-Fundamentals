@@ -1,6 +1,8 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Res } from '@nestjs/common';
 import { ProductsService } from './products.service';
-
+import { CreateProductsDto } from './dto/create-products.dto/create-products.dto';
+import { UpdateProductDto } from './dto/update-product.dto/update-product.dto';
+//With this DTO we have the power oftype safety and full flexibility 
 
 
 //we called all methods/services in our controller through the ProductsService instance
@@ -27,8 +29,8 @@ export class ProductsController {
 
   @Post()
    //we are using TS for that we should specify the type of body
-  create(@Body() body: any) {
-    return  this.productsService.create(body);
+  create(@Body() createProductsDto:CreateProductsDto) {
+    return  this.productsService.create(createProductsDto);
     
   }
 
@@ -36,9 +38,9 @@ export class ProductsController {
   //PATCH : update only single property of the object
 
   @Patch(':id')
-  Update(@Param('id') id: string , @Body() body:any){
+  Update(@Param('id') id: string , @Body() updateProductDto:UpdateProductDto){
 
-return this.productsService.update(+id, body);
+return this.productsService.update(+id, updateProductDto);
     
   }
  //make sure using Delete decorator 

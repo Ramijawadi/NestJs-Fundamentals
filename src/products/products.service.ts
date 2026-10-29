@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { Product } from './entities/product.entity';
 
 @Injectable()
@@ -22,6 +22,14 @@ export class ProductsService {
     price: 150,
     stock: 30
 
+  },
+    {
+
+    id:3,
+    name: 'Product 3',
+    price: 820,
+    stock: 10
+
   }
 
     ] ;  // this will be like mock data will use for the moment to test 
@@ -36,8 +44,17 @@ export class ProductsService {
     
 
    findOne(id:number) {
-       return this.products.find(item => item.id === id);  //find and return product by id
+   const product =   this.products.find(item => item.id === id);  //find and return product by id
+
+   if(!product){
+    throw new NotFoundException(`product ${id} not found`);
    }
+  return  product;
+
+ }
+
+
+ // we can use helper classes like : NotFoundException , internalServerErrorExeption , BadRequestExeception and etc ...
 
    create(createProductDto:any){
 
